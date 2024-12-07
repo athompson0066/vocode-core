@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install system dependencies in a single layer
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libportaudio2 \
     libportaudiocpp0 \
@@ -13,13 +13,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-RUN pip install --no-cache-dir vocode uvicorn fastapi
+RUN pip install --no-cache-dir vocode uvicorn fastapi python-dotenv
 
-# Copy application code
+# Create main.py file
 COPY . .
-
-# Create necessary directories
-RUN mkdir -p /app/call_transcripts /app/db
 
 EXPOSE 3000
 
